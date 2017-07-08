@@ -1,0 +1,17 @@
+<h1>Liste der Dokumente</h1>
+<table datatable class="row-border hover" [dtOptions]="dtOptions">
+	<thead>
+    	<tr>
+        	<th width="100px">Dokumentnr</th>
+        	<th width="100px">Dokumenttyp</th>
+        	<th>Beschreibung</th>
+    	</tr>
+    </thead>
+    <tbody>
+    	<tr *ngFor="let document of documents">
+        	<td><a [routerLink]="['/document-details', document._id]">{{ document._id }}</a></td>
+        	<td>{{ document.document_type.description }}</td>
+        	<td>{{ document.description }}</td>
+    	</tr>
+    </tbody>
+</table>

@@ -1,0 +1,15 @@
+<h1>Liste der Ereignisse</h1>
+<table datatable id="eventstable" class="row-border hover" [dtOptions]="dtOptions">
+    <thead>
+    	<tr>
+        	<th width="250px">Datum</th>
+          	<th>Ereignis</th>
+      	</tr>
+    </thead>
+    <tbody>
+      	<tr *ngFor="let event of events">
+           	<td><a [routerLink]="['/event-details', event._id]">{{ event.daterange | daterange }}</a></td>
+           	<td>{{ event.description }}</td>
+       	</tr>
+    </tbody>
+</table>  

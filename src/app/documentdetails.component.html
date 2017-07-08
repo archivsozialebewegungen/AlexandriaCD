@@ -1,0 +1,51 @@
+<div class="row">
+	<div class ="col-xs-1">
+		<a class="btn btn-default" [routerLink]="['/document-details', document.previous_id]">
+			<span class="glyphicon glyphicon-arrow-left"></span>
+		</a>
+	</div>
+	<div class ="col-xs-1 col-xs-offset-10">
+		<a class="btn btn-default pull-right" [routerLink]="['/document-details', document.next_id]">
+			<span class="glyphicon glyphicon-arrow-right"></span>
+		</a>
+	</div>
+</div>
+<div class="row voffset2">
+	<div class="col-xs-12 col-sm-10 col-lg-9">
+		<div class="panel panel-default">
+			<div class="panel-heading">Dokument Nr.{{ document._id }}</div>
+			<div class="panel-body">{{ document.description }}</div>
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-2 col-lg-3">
+		<a href="{{ document.pdf }}" target="_blank" class="btn btn-default btn-block">Pdf anzeigen</a>
+	</div>
+</div>
+<div *ngIf="related_events.length > 0" class="panel panel-default voffset2">
+	<div class="panel-heading">Verwandte Ereignisse</div>
+	<div class="panel-body">
+		<div class="row" *ngFor="let related_event of related_events">
+			<a [routerLink]="['/event-details', related_event._id]">
+				<div class="col-xs-12 col-sm-3 col-md-2">
+					{{related_event.daterange | daterange}}
+				</div>
+			</a>
+			<div class="col-xs-12 col-sm-3 col-md-10">{{related_event.description}}</div>
+		</div>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">Dokumentdateien</div>
+	<div class="panel-body">
+		<div class="row voffset2" *ngFor="let row of document_file_rows">
+			<div class="col-xs-12 col-md-4" *ngFor="let document_file of row">
+				<a *ngIf="document_file.filetype != 'pdf'" style="cursor: pointer;" (click)="displayDocument(document_file)">
+					<img [src]="document_file.thumbnail" alt="Dokumentdatei {{ document_file._id }}">
+				</a>
+				<a *ngIf="document_file.filetype == 'pdf'" href="{{ document.pdf}}" target="_blank">
+					<img [src]="document_file.thumbnail" alt="Dokumentdatei {{ document_file._id }}">
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

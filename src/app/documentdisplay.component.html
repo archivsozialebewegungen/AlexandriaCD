@@ -1,0 +1,15 @@
+<div class="modal-dialog modal-lg">
+  	<div class="modal-content">
+		<div class="modal-header" style="height: 8vh">
+			<button type="button" class="close" (click)="close()">&times;</button>
+			<h4 class="modal-title">Dokumentenanzeige</h4>
+		</div>
+		<div style="max-height: 72vh; overflow-y: scroll" class="modal-body">
+			<img *ngIf="imagewidth" [style.width.%]="imagewidth" [src]="selected_file_info.display_file">
+			<p *ngIf="! imagewidth">Nothing to display</p>
+		</div>
+		<div class="modal-footer" style="height: 12vh">
+			<button type="button" class="btn btn-default" (click)="close()">Schließen</button>
+		</div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
