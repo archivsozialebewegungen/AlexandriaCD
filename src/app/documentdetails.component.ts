@@ -26,10 +26,6 @@ export class DocumentDetailsComponent implements OnDestroy {
                 
 	}
 	
-	showSomething() {
-		alert("Something");
-	}
-	
 	displayDocument(document_file_info) {
 		this._alexandriaService.addDisplayFilePath(document_file_info);
 		this._dialogService.addDialog(

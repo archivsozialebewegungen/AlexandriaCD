@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AlexandriaService } from './alexandria.service';
+import { AlexandriaService, Event } from './alexandria.service';
 
 @Component({
   selector: 'event-details',
@@ -8,8 +8,8 @@ import { AlexandriaService } from './alexandria.service';
 })
 export class EventDetailsComponent implements OnInit, OnDestroy {
   
-  event: object;
-  related_events: object[];
+  event: Event;
+  related_events: Event[];
   document_rows: object[];
   
   private _subscription: any

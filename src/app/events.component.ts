@@ -7,6 +7,7 @@ import { JQ_TOKEN } from './jQuery.service';
   selector: 'events',
   templateUrl: 'events.component.html'
 })
+
 export class EventsComponent implements OnInit {
   
   dtOptions: DataTables.Settings = {};

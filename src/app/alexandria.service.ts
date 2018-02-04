@@ -3,6 +3,32 @@ import * as _ from "lodash";
 
 declare var alexandria: any;
 
+export interface AlexDate {
+    _day: number;
+    _month: number;
+    _year: number;
+}
+
+export interface DateRange {
+    start_date: AlexDate;
+    end_date: AlexDate;
+    sequence_number: number;
+}
+
+export interface IdArray {
+    [index: number]: number;
+}
+
+export interface Event {
+    id: number;
+    daterange: DateRange;
+    description: string;
+    next_id: number;
+    previous_id: number;
+    related_documents: IdArray;
+    related_events: IdArray;
+}
+
 @Injectable()
 
 export class AlexandriaService {
@@ -15,7 +41,7 @@ export class AlexandriaService {
 		return alexandria.pagecontent.imprint;
 	}
 	
-	getAllEvents() {
+	getAllEvents(): Event[] {
 		return alexandria.data.events;
 	}
 
@@ -23,7 +49,7 @@ export class AlexandriaService {
 		return alexandria.data.documents;
 	}
 	
-	getEvent(id) {
+	getEvent(id): Event {
 	
 		for (let event of alexandria.data.events) {
 			if (event._id == id) {
