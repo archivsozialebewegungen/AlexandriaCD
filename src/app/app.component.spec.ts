@@ -1,43 +1,31 @@
-import { TestBed, async } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { RouterModule, Routes } from '@angular/router';
-import { LocationStrategy, HashLocationStrategy} from '@angular/common';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [
         AppComponent
       ],
-      imports: [
-        RouterModule.forRoot([]),
-      ],
-      providers: [
-        { provide: LocationStrategy, useClass: HashLocationStrategy }
-      ],
     }).compileComponents();
-  }));
+  });
 
-  it('should create the app', async(() => {
+  it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
+    const app = fixture.componentInstance;
     expect(app).toBeTruthy();
-  }));
+  });
 
-  it('should have the four navigation links', async(() => {
+  it(`should have as title 'AlexandriaCD'`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.title).toEqual('AlexandriaCD');
+  });
+
+  it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    const menuLinks = compiled.querySelectorAll('a');
-    expect(menuLinks.length).toBe(4);
-    expect(menuLinks[0].textContent).toBe('Alexandria');
-    expect(menuLinks[0].getAttribute('href')).toBe('#/start');
-    expect(menuLinks[1].textContent).toBe('Ereignisse');
-    expect(menuLinks[1].getAttribute('href')).toBe('#/events');
-    expect(menuLinks[2].textContent).toBe('Dokumente');
-    expect(menuLinks[2].getAttribute('href')).toBe('#/documents');
-    expect(menuLinks[3].textContent).toBe('Impressum');
-    expect(menuLinks[3].getAttribute('href')).toBe('#/imprint');
-  }));
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.content span')?.textContent).toContain('AlexandriaCD app is running!');
+  });
 });

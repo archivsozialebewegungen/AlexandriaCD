@@ -15,18 +15,41 @@ export interface DateRange {
     sequence_number: number;
 }
 
-export interface IdArray {
-    [index: number]: number;
-}
-
 export interface Event {
-    id: number;
+    _id: number;
     daterange: DateRange;
     description: string;
     next_id: number;
     previous_id: number;
-    related_documents: IdArray;
-    related_events: IdArray;
+    related_documents: number[];
+    related_events: number[];
+}
+
+export interface DokumentTyp {
+	description: string;
+}
+
+export interface FileInfo {
+	_id: number;
+	document_id: number;
+	filetype: string;
+	page: number;
+	resolution: number|null;
+	thumbnail: string;
+	display_file: string;
+}
+
+export interface Dokument {
+	_id: number;
+    description: string;
+    thumbnail: string;
+    display_file: string;
+    pdf: string;
+    related_events: number[];
+    document_type: DokumentTyp;
+    file_infos: FileInfo[];
+    next_id: number;
+    previous_id: number;
 }
 
 @Injectable()
@@ -45,33 +68,35 @@ export class AlexandriaService {
 		return alexandria.data.events;
 	}
 
-	getAllDocuments() {
+	getAllDocuments(): Dokument[] {
 		return alexandria.data.documents;
 	}
 	
-	getEvent(id): Event {
+	getEvent(id: any): Event {
 	
 		for (let event of alexandria.data.events) {
 			if (event._id == id) {
 				return event;
 			}
 		}
-		return null;
+		// Just a dummy return statement
+		return alexandria.data.events[0]
 	}
 
-	getDocument(id) {
+	getDocument(id: any): Dokument {
 	
 		for (let document of alexandria.data.documents) {
 			if (document._id == id) {
 				return document;
 			}
 		}
-		return null;
+		// Just a dummy return statment
+		return alexandria.data.documents[0]
 	}
 	
-	getDocuments(document_ids) {
+	getDocuments(document_ids: number[]): Dokument[] {
 	
-		let documents = [];
+		let documents: Dokument[] = [];
 		let index = -1;
 		for (let document_id of document_ids) {
 			documents[++index] = this.getDocument(document_id);
@@ -80,80 +105,80 @@ export class AlexandriaService {
 	
 	}
 	
-	addThumbnails(documents) {
+	addThumbnails(objects: any[]): any[] {
 		return _.map(
-			documents, 
-			(document) => {
-				return this.addThumbnailPath(document);
+			objects, 
+			(object: any) => {
+				return this.addThumbnailPath(object);
 			},
 		);
 	}
 	
-	buildRows(documents) {
+	buildRows(objects: any[]) {
 	
-		documents = this.addThumbnails(documents);
+		objects = this.addThumbnails(objects);
 		
 		let rows = _.reduce(
-			documents,
-			function(rows, document) {
+			objects,
+			function(rows, object) {
 				var current_row = rows[rows.length-1];
 				if (current_row.length == 3) {
 					rows.push([]);
 					current_row = rows[rows.length-1]
 				};
-				current_row.push(document);
+				current_row.push(object);
 				return rows;
 			},
-			[[]]
+			[<any[]>[]]
 		)
 		return rows;	
 	}
 	
-	getEvents(event_ids) {
+	getEvents(event_ids: number[]) {
 	
 		let events = [];
 		let index = -1;
 		for (let event_id of event_ids) {
-			events[++index] = this.getEvent(event_id);
+			events[++index] = this.getEvent(event_id) as Event;
 		}
 		return events;
 	}
 	
-	getRelatedDocuments(event) {
+	getRelatedDocuments(event: Event) {
 	
 		return this.getDocuments(event.related_documents);
 	}
 	
-	getRelatedEvents(document) {
+	getRelatedEvents(document: Dokument) {
 	
 		return this.getEvents(document.related_events);
 	}
 	
-	getCrossReferences(event) {
+	getCrossReferences(event: Event) {
 	
 		return this.getEvents(event.related_events);
 	}
 
-	addThumbnailPath(document) {
-		let filename = this.createFilename(document, '.png');
-		document.thumbnail = "assets/thumbnails/" + filename;
-		return document;
+	addThumbnailPath(object: any): any {
+		let filename = this.createFilename(object, '.png');
+		object.thumbnail = "assets/thumbnails/" + filename;
+		return object;
 	}
 	
-	addDisplayFilePath(document) {
-		let filename = this.createFilename(document, '.png');
-		document.display_file = "assets/screen/" + filename;
-		return document;
+	addDisplayFilePath(object: any): any {
+		let filename = this.createFilename(object, '.png');
+		object.display_file = "assets/screen/" + filename;
+		return object;
 	}
 	
-	addPdfPath(document) {
+	addPdfPath(document: Dokument) {
 		let filename = this.createFilename(document, '.pdf');
 		document.pdf = "assets/pdf/" + filename;
 		return document;
 	}
 	
-	private createFilename(document, extension) {
-		let filename = document._id + '';
+	private createFilename(object: any, extension: String) {
+		let filename = object._id + '';
 		while(filename.length < 8){
 			filename = '0' + filename;
 		}

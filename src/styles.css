@@ -1,4 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+.documentDisplayClass .modal-dialog {
+  max-width: 1000px;
+  max-height: 800px;
+}
 .voffset  { margin-top: 2px; }
 .voffset1 { margin-top: 5px; }
 .voffset2 { margin-top: 10px; }

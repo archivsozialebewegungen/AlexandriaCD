@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { AlexandriaService } from './alexandria.service';
+import { AlexandriaService, Dokument } from './alexandria.service';
 import { DatatablesService } from './datatables.service';
 
 @Component({
   selector: 'documents',
   templateUrl: 'documents.component.html'
 })
+
 export class DocumentsComponent implements OnInit {
   
-  dtOptions: DataTables.Settings;
-  documents;
+  dtOptions: DataTables.Settings = {};
+  documents: Array<Dokument> = [];
   
   constructor(
   	private _alexandriaService: AlexandriaService,

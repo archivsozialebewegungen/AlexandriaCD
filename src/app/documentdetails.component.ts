@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from "ng2-bootstrap-modal";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+//import { DialogService } from "ng2-bootstrap-modal";
     
 
-import { AlexandriaService } from './alexandria.service';
-import { DocumentDisplayComponent } from './documentdisplay.component';
+import { AlexandriaService, Dokument, Event, FileInfo } from './alexandria.service';
 import { JQ_TOKEN } from './jQuery.service';
 
 @Component({
@@ -13,24 +13,28 @@ import { JQ_TOKEN } from './jQuery.service';
 })
 export class DocumentDetailsComponent implements OnDestroy {
   
-	document: any;
-	related_events: object[];
-	document_file_rows: object[];
+	document!: Dokument;
+	current_document_file!: FileInfo;
+	related_events: Event[] = [];
+	document_file_rows: FileInfo[][] = [<FileInfo[]>[]];
   
 	private _subscription: any;
   
-	constructor(@Inject(JQ_TOKEN) private $: any,
-                private _alexandriaService: AlexandriaService,
-                private _route: ActivatedRoute,
-                private _dialogService: DialogService) {
+	constructor(
+		@Inject(JQ_TOKEN) private $: any,
+        private _alexandriaService: AlexandriaService,
+        private _route: ActivatedRoute,
+        private modalService: NgbModal
+        //,
+        //private _dialogService: DialogService
+        ) {
                 
 	}
-	
-	displayDocument(document_file_info) {
-		this._alexandriaService.addDisplayFilePath(document_file_info);
-		this._dialogService.addDialog(
-			DocumentDisplayComponent,
-			{selected_file_info: document_file_info, imagewidth: '100'});
+
+	displayDocument(template: any, document_file: FileInfo) {
+		this._alexandriaService.addDisplayFilePath(document_file);
+		this.current_document_file = document_file;
+	    this.modalService.open(template, { scrollable: true, windowClass : "documentDisplayClass" });
 	}
 	
 	ngOnInit(): void {

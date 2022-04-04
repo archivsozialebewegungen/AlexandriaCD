@@ -1,12 +1,25 @@
-<div class="row">
-	<div class ="col-xs-1">
-		<a class="btn btn-default" [routerLink]="['/document-details', document.previous_id]">
-			<span class="glyphicon glyphicon-arrow-left"></span>
+<ng-template #template let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Dokumentdatei {{ current_document_file._id }}</h4>
+    <button type="button" class="btn-close" aria-label="Schließen" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+  	<img *ngIf="current_document_file.filetype != 'mpg'" [src]="current_document_file.display_file" width="1600px"/>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Schließen</button>
+  </div>
+</ng-template>
+
+<div class="row row-cols-2">
+	<div class ="col">
+		<a type="button" class="btn btn-dark" [routerLink]="['/document-details', document.previous_id]">
+			Voriges Dokument
 		</a>
 	</div>
-	<div class ="col-xs-1 col-xs-offset-10">
-		<a class="btn btn-default pull-right" [routerLink]="['/document-details', document.next_id]">
-			<span class="glyphicon glyphicon-arrow-right"></span>
+	<div class ="col text-end">
+		<a type="button" class="btn btn-dark" [routerLink]="['/document-details', document.next_id]">
+			Nächstes Dokument
 		</a>
 	</div>
 </div>
@@ -39,7 +52,7 @@
 	<div class="panel-body">
 		<div class="row voffset2" *ngFor="let row of document_file_rows">
 			<div class="col-xs-12 col-md-4" *ngFor="let document_file of row">
-				<a *ngIf="document_file.filetype != 'pdf'" style="cursor: pointer;" (click)="displayDocument(document_file)">
+				<a *ngIf="document_file.filetype != 'pdf'" style="cursor: pointer;" (click)="displayDocument(template, document_file)">
 					<img [src]="document_file.thumbnail" alt="Dokumentdatei {{ document_file._id }}">
 				</a>
 				<a *ngIf="document_file.filetype == 'pdf'" href="{{ document.pdf}}" target="_blank">

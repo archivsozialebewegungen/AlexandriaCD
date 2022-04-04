@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { AlexDate, DateRange } from './alexandria.service';
 
 @Pipe({name: 'daterange'})
 export class DaterangePipe implements PipeTransform {
@@ -7,7 +8,7 @@ export class DaterangePipe implements PipeTransform {
 	              'Mai', 'Juni', 'Juli', 'August', 'September',
 	              'Oktober', 'November', 'Dezember'];
 	              
-	formatDate(date) {
+	formatDate(date: AlexDate) {
         var display = '';
 		if (date._day) {
 		    display += date._day + ". ";
@@ -19,7 +20,7 @@ export class DaterangePipe implements PipeTransform {
 		return display
 	}
 	
-	formatDaterange(daterange) {
+	formatDaterange(daterange: DateRange) {
 	    var display = this.formatDate(daterange.start_date)
 	    if (daterange.end_date) {
 	    	display += " bis " + this.formatDate(daterange.end_date);
@@ -27,7 +28,7 @@ export class DaterangePipe implements PipeTransform {
 	    return display;
 	}
 
-  	transform(daterange: object): string {
+  	transform(daterange: DateRange): string {
     	return this.formatDaterange(daterange);
   	}
 }

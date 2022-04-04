@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 
 export class DatatablesService {
 
-	getDatatableOptions(columnOptions) {
+	getDatatableOptions(columnOptions: any) {
 	
     	let dtOptions: DataTables.Settings = {
 			language: this.getLanguageSettings(),

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AlexandriaService, Event } from './alexandria.service';
+import { AlexandriaService, Event, Dokument } from './alexandria.service';
 
 @Component({
   selector: 'event-details',
@@ -8,9 +8,9 @@ import { AlexandriaService, Event } from './alexandria.service';
 })
 export class EventDetailsComponent implements OnInit, OnDestroy {
   
-  event: Event;
-  related_events: Event[];
-  document_rows: object[];
+  event!: Event;
+  related_events: Event[] = [];
+  document_rows: Dokument[][] = [<Dokument[]>[]];
   
   private _subscription: any
   
@@ -20,7 +20,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
   
-  	let fetch_rows = (event) => {
+  	let fetch_rows = (event: Event) => {
   		let documents = this._alexandriaService.getRelatedDocuments(event);
   		documents = this._alexandriaService.addThumbnails(documents);
   		let rows = this._alexandriaService.buildRows(documents);
