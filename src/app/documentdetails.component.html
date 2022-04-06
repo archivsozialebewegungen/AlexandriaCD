@@ -1,3 +1,4 @@
+<!-- Modales Fenster zur Dokumentenanzeige -->
 <ng-template #template let-modal>
   <div class="modal-header">
     <h4 class="modal-title">Dokumentdatei {{ current_document_file._id }}</h4>
@@ -5,51 +6,61 @@
   </div>
   <div class="modal-body">
   	<img *ngIf="current_document_file.filetype != 'mpg'" [src]="current_document_file.display_file" width="1600px"/>
+  	<video *ngIf="current_document_file.filetype == 'mpg'" width="500px" height="350px" autobuffer="autobuffer" autoplay="autoplay" loop="loop" controls="controls">
+    	<source [src]='current_document_file.multimedia_file'/>
+	</video>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Schließen</button>
   </div>
 </ng-template>
 
-<div class="row row-cols-2">
+<!-- Buttons zur Navigation -->
+<div class="row row-cols-2 voffset2">
 	<div class ="col">
-		<a type="button" class="btn btn-dark" [routerLink]="['/document-details', document.previous_id]">
-			Voriges Dokument
+		<a type="button" class="btn btn-light" [routerLink]="['/document-details', document.previous_id]">
+			<i style="font-size: 250%;" class="bi-arrow-left-circle" role="img" aria-label="Voriges Dokument"></i>
 		</a>
 	</div>
 	<div class ="col text-end">
-		<a type="button" class="btn btn-dark" [routerLink]="['/document-details', document.next_id]">
-			Nächstes Dokument
+		<a type="button" class="btn btn-light" [routerLink]="['/document-details', document.next_id]">
+			<i style="font-size: 250%;" class="bi-arrow-right-circle" role="img" aria-label="Nächstes Dokument"></i>
 		</a>
 	</div>
 </div>
+
+
+<!-- Anzeige der Dokumentinformationen -->
 <div class="row voffset2">
 	<div class="col-xs-12 col-sm-10 col-lg-9">
-		<div class="panel panel-default">
-			<div class="panel-heading">Dokument Nr.{{ document._id }}</div>
-			<div class="panel-body">{{ document.description }}</div>
+		<div class="card">
+			<div class="card-header">Dokument Nr.{{ document._id }}</div>
+			<p class="card-body">{{ document.description }}</p>
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-2 col-lg-3">
-		<a href="{{ document.pdf }}" target="_blank" class="btn btn-default btn-block">Pdf anzeigen</a>
+		<a type="button" href="{{ document.pdf }}" target="_blank" class="btn btn-outline-dark">Pdf anzeigen</a>
 	</div>
 </div>
-<div *ngIf="related_events.length > 0" class="panel panel-default voffset2">
-	<div class="panel-heading">Verwandte Ereignisse</div>
-	<div class="panel-body">
-		<div class="row" *ngFor="let related_event of related_events">
-			<a [routerLink]="['/event-details', related_event._id]">
-				<div class="col-xs-12 col-sm-3 col-md-2">
-					{{related_event.daterange | daterange}}
-				</div>
-			</a>
-			<div class="col-xs-12 col-sm-3 col-md-10">{{related_event.description}}</div>
-		</div>
+
+<!-- Anzeige der verknüpften Ereignisinformationen -->
+<div *ngIf="related_events.length > 0" class="card voffset2">
+	<div class="card-header">Verwandte Ereignisse</div>
+	<div class="card-body">
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item" *ngFor="let related_event of related_events">
+ 			<a class="card-link" [routerLink]="['/event-details', related_event._id]">
+					{{ related_event.daterange | daterange }}
+			</a>: {{related_event.description}}
+			</li>
+		</ul>
 	</div>
 </div>
-<div class="panel panel-default">
-	<div class="panel-heading">Dokumentdateien</div>
-	<div class="panel-body">
+
+<!-- Vorschau der Dokumentdateien -->
+<div class="card voffset2">
+	<div class="card-header">Dokumentdateien</div>
+	<div class="card-body">
 		<div class="row voffset2" *ngFor="let row of document_file_rows">
 			<div class="col-xs-12 col-md-4" *ngFor="let document_file of row">
 				<a *ngIf="document_file.filetype != 'pdf'" style="cursor: pointer;" (click)="displayDocument(template, document_file)">

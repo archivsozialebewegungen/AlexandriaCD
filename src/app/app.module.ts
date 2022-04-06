@@ -64,7 +64,7 @@ const routerConfig: Routes = [
     DaterangePipe
   ],
   imports: [
-    RouterModule.forRoot(routerConfig),
+    RouterModule.forRoot(routerConfig, {useHash: true}),
     BrowserModule,
     DataTablesModule,
     NgbModule

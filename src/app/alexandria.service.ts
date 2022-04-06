@@ -37,6 +37,7 @@ export interface FileInfo {
 	resolution: number|null;
 	thumbnail: string;
 	display_file: string;
+	multimedia_file: string;
 }
 
 export interface Dokument {
@@ -72,7 +73,7 @@ export class AlexandriaService {
 		return alexandria.data.documents;
 	}
 	
-	getEvent(id: any): Event {
+	getEvent(id: number): Event {
 	
 		for (let event of alexandria.data.events) {
 			if (event._id == id) {
@@ -83,7 +84,7 @@ export class AlexandriaService {
 		return alexandria.data.events[0]
 	}
 
-	getDocument(id: any): Dokument {
+	getDocument(id: number): Dokument {
 	
 		for (let document of alexandria.data.documents) {
 			if (document._id == id) {
@@ -159,16 +160,22 @@ export class AlexandriaService {
 		return this.getEvents(event.related_events);
 	}
 
-	addThumbnailPath(object: any): any {
-		let filename = this.createFilename(object, '.png');
-		object.thumbnail = "assets/thumbnails/" + filename;
-		return object;
+	addThumbnailPath(file_info: FileInfo): any {
+		let filename = this.createFilename(file_info, '.png');
+		file_info.thumbnail = "assets/thumbnails/" + filename;
+		return file_info;
 	}
 	
-	addDisplayFilePath(object: any): any {
-		let filename = this.createFilename(object, '.png');
-		object.display_file = "assets/screen/" + filename;
-		return object;
+	addDisplayFilePath(file_info: FileInfo): any {
+		let filename = this.createFilename(file_info, '.png');
+		file_info.display_file = "assets/screen/" + filename;
+		return file_info;
+	}
+	
+	addMultimediaFilePath(file_info: FileInfo): any {
+		let filename = this.createFilename(file_info, "." + file_info.filetype);
+		file_info.multimedia_file = "assets/multimedia/" + filename;
+		return file_info;
 	}
 	
 	addPdfPath(document: Dokument) {

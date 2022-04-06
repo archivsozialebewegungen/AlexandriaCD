@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-//import { DialogService } from "ng2-bootstrap-modal";
     
 
 import { AlexandriaService, Dokument, Event, FileInfo } from './alexandria.service';
@@ -33,6 +32,7 @@ export class DocumentDetailsComponent implements OnDestroy {
 
 	displayDocument(template: any, document_file: FileInfo) {
 		this._alexandriaService.addDisplayFilePath(document_file);
+		this._alexandriaService.addMultimediaFilePath(document_file);
 		this.current_document_file = document_file;
 	    this.modalService.open(template, { scrollable: true, windowClass : "documentDisplayClass" });
 	}

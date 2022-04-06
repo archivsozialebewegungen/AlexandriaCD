@@ -1,36 +1,42 @@
-<div class="row">
-	<div class ="col-xs-1">
-		<a class="btn btn-default" [routerLink]="['/event-details', event.previous_id]">
-			<span class="glyphicon glyphicon-arrow-left"></span>
+<!-- Buttons zur Navigation -->
+<div class="row row-cols-2 voffset2">
+	<div class ="col">
+		<a type="button" class="btn btn-light" [routerLink]="['/event-details', event.previous_id]">
+			<i style="font-size: 250%;" class="bi-arrow-left-circle" role="img" aria-label="Voriges Ereignis"></i>
 		</a>
 	</div>
-	<div class ="col-xs-1 col-xs-offset-10">
-		<a class="btn btn-default pull-right" [routerLink]="['/event-details', event.next_id]">
-			<span class="glyphicon glyphicon-arrow-right"></span>
+	<div class ="col text-end">
+		<a type="button" class="btn btn-light" [routerLink]="['/event-details', event.next_id]">
+			<i style="font-size: 250%;" class="bi-arrow-right-circle" role="img" aria-label="Nächstes Ereignis"></i>
 		</a>
 	</div>
 </div>
-<div class="panel panel-default voffset2">
-	<div class="panel-heading">{{ event.daterange | daterange }}</div>
-	<div class="panel-body">{{ event.description }}</div>
+
+<!-- Ereignisbeschreibung -->
+<div class="card voffset2">
+	<div class="card-header">{{ event.daterange | daterange }}</div>
+	<p class="card-body">{{ event.description }}</p>
 </div>
-<div *ngIf="related_events.length > 0" class="panel panel-default voffset2">
-	<div class="panel-heading">Verwandte Ereignisse</div>
+
+<!-- Querverweise zu anderen Ereignissen -->
+<div *ngIf="related_events.length > 0" class="card voffset2">
+	<div class="card-header">Verwandte Ereignisse</div>
 	
-	<div class="panel-body">
-		<div class="row" *ngFor="let related_event of related_events">
-			<a [routerLink]="['/event-details', related_event._id]">
-				<div class="col-xs-12 col-sm-3 col-md-2">
+	<div class="card-body">
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item" *ngFor="let related_event of related_events">
+ 			<a class="card-link" [routerLink]="['/event-details', related_event._id]">
 					{{ related_event.daterange | daterange }}
-				</div>
-			</a>
-			<div class="col-xs-12 col-sm-3 col-md-10">{{related_event.description}}</div>
-		</div>
+			</a>: {{related_event.description}}
+			</li>
+		</ul>
 	</div>
 </div>
-<div class="panel panel-default">
-	<div class="panel-heading">Verknüpfte Dokumente</div>
-	<div class="panel-body">
+
+<!-- Querverweise zu Dokumenten -->
+<div class="card voffset2">
+	<div class="card-header">Verknüpfte Dokumente</div>
+	<div class="card-body">
 		<div class="row voffset2" *ngFor="let row of document_rows">
 			<div class="col-xs-12 col-md-4" *ngFor="let document of row">
 				<a [routerLink]="['/document-details', document._id]">
@@ -40,4 +46,3 @@
 		</div>
 	</div>
 </div>
-
