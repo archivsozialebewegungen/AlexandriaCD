@@ -5,10 +5,13 @@
     <button type="button" class="btn-close" aria-label="Schließen" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-  	<img *ngIf="current_document_file.filetype != 'mpg'" [src]="current_document_file.display_file" width="1600px"/>
-  	<video *ngIf="current_document_file.filetype == 'mpg'" width="500px" height="350px" autobuffer="autobuffer" autoplay="autoplay" loop="loop" controls="controls">
+  	<img *ngIf="current_document_file.filetype != 'mp3' && current_document_file.filetype != 'mpg' && current_document_file.filetype != 'mp4'" [src]="current_document_file.display_file" width="1600px"/>
+  	<video *ngIf="current_document_file.filetype == 'mpg' || current_document_file.filetype == 'mp4'" width="500px" height="350px" autobuffer="autobuffer" autoplay="autoplay" loop="loop" controls="controls">
     	<source [src]='current_document_file.multimedia_file'/>
 	</video>
+  	<audio *ngIf="current_document_file.filetype == 'mp3'" controls="controls">
+    	<source [src]='current_document_file.multimedia_file'/>
+	</audio>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Schließen</button>
